@@ -1,0 +1,38 @@
+package ex_1_3;
+
+import java.util.Iterator;
+
+import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+
+public class Ex_1_3_4{
+   
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Stack<String> stack = new Stack<String>();
+		Stack<String> stack2 = new Stack<String>();
+		String s = "[()]{}{[()()]()}";
+		String [] a = s.split("");
+		boolean flag = true;
+		String temp  = " ";
+		
+		for(int i = 0; i < a.length; i++){
+			if(a[0].equals("]") || a[0].equals(")") || a[0].equals("}")){StdOut.println(!flag); break;}
+				 if(a[i].equals("[") || a[i].equals("(") || a[i].equals("{")){stack.push(a[i]);temp = stack.peek();}
+				 else if(temp.equals("[") && a[i].equals("]")){stack.pop();if(!stack.isEmpty())temp = stack.peek();}
+				 else if(temp.equals("(") && a[i].equals(")")){stack.pop();if(!stack.isEmpty())temp = stack.peek();}
+				 else if(temp.equals("{") && a[i].equals("}")){stack.pop();if(!stack.isEmpty())temp = stack.peek();}
+				 else{stack2.push(a[i]);}
+			}		
+	
+		if(stack.size() > 0 || stack2.size() > 0){
+			flag = false;
+			StdOut.println(flag+ " "+" stack: " +stack.size()+" stack2: "+stack2.size());
+		}else{
+			StdOut.println(flag+ " "+" stack size: " +stack.size()+" stack2 size: "+stack2.size());
+			}
+		}
+		
+	}
+
