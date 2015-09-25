@@ -24,7 +24,7 @@ public class Ex_1_3_4{
 				 else if(temp.equals("(") && a[i].equals(")")){stack.pop();if(!stack.isEmpty())temp = stack.peek();}
 				 else if(temp.equals("{") && a[i].equals("}")){stack.pop();if(!stack.isEmpty())temp = stack.peek();}
 				 else{stack2.push(a[i]);}
-			}		
+		}		
 	
 		if(stack.size() > 0 || stack2.size() > 0){
 			flag = false;
