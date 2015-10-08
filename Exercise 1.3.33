@@ -1,0 +1,187 @@
+package creative_problems;
+
+import java.util.Iterator;
+
+import edu.princeton.cs.algs4.StdOut;
+
+public class Deque<Item> implements Iterable {
+	
+	private Node first;
+	private Node last;
+	private int N;
+	
+	public Deque(){
+		
+		first = last = null;
+		N = 0;
+	}
+	
+	private class Node{
+		
+		private Node next;
+		private Node previous;
+		private Item item;
+	}
+	
+	public boolean isEmpty(){
+		
+		return first == null;
+	}
+	
+	public int size(){
+		
+		return N;
+	}
+	
+	public void pushLeft(Item i){
+		
+		Node n = new Node();
+		n.item = i;
+		
+		if(isEmpty()){
+			
+			first = last = n;
+			N++;
+		}
+		else{
+			
+			first.previous = n;
+			n.next = first;
+			first = n;
+			last.next = first;
+			first.previous = last;
+			N++;
+		}
+	}
+	
+	public void pushRight(Item i){
+		
+		Node n = new Node();
+		n.item = i;
+		
+		if(isEmpty()){
+			
+			first = last = n;
+			N++;
+		}
+		else{
+			
+			last.next = n;
+			n.previous = last;
+			last = n;
+			last.next = first;
+			first.previous = last;
+			N++;
+		}
+	}
+	
+	public Item popLeft(){
+		
+		Item item = first.item;
+		
+		if(isEmpty()){throw new RuntimeException("empty");}
+		else if(first == last){first = last = null;}
+		else{
+			
+			first = first.next;
+			first.previous = last;
+			last.next = first;
+			N--;
+		}
+		
+		return item;
+	}
+	
+	/*public void print(){
+		StdOut.println(first.next.previous.item);
+	}*/
+	public Item popRight(){
+		
+		Item item = last.item;
+		
+		if(isEmpty()){throw new RuntimeException("empty");}
+		else if(last == first){first = last = null;}
+		else{
+			
+			last = last.previous;
+			last.next = first;
+			first.previous = last;
+			N--;
+		}
+		
+		return item;
+		
+	}
+	
+	public String toString(){
+		
+		Node current = first;
+		int i = N;
+		String s = "";
+		
+		while(i > 0){
+			
+			s = s+ "|"+ current.previous.item+"|"+current.item+"|"+current.next.item+"|"+" -> ";
+			current = current.next;
+			i--;
+		}
+		
+		return s;
+	}
+	
+	@Override
+	public Iterator iterator() {
+		// TODO Auto-generated method stub
+		return new DequeIterator();
+	}
+	
+	private class DequeIterator<Item> implements Iterator<Item>{
+		
+		private Node current = first;
+		private int i = N;
+		@Override
+		public boolean hasNext() {
+			// TODO Auto-generated method stub
+			return i > 0;
+		}
+
+		@Override
+		public Item next() {
+			// TODO Auto-generated method stub
+			i--;
+			Item item = (Item) current.item;
+			current = current.next;
+			return item;
+		}
+		
+		
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Deque<Integer> dque = new Deque<Integer>();
+		
+		int [] a = {1, 2, 3, 4, 5, 6};
+		
+		for(int i = 0; i < a.length; i++){
+			
+			dque.pushLeft(a[i]);
+			//dque.pushRight(a[i]);
+		}
+		dque.popLeft();
+		
+		Iterator<Integer> iterator = dque.iterator();
+		while(iterator.hasNext()){
+			int i = iterator.next();
+			StdOut.print(i+" ");
+		}
+		
+		StdOut.println();
+		StdOut.println(dque);
+		//dque.print();
+	}
+
+	
+
+}
