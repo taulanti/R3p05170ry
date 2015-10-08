@@ -1,0 +1,36 @@
+package ex_1_3;
+
+import java.util.Iterator;
+
+import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdOut;
+
+public class Ex_1_3_12 {
+	
+	static Stack<String> copy(Stack<String> s){
+		
+		Iterator<String> iterator = s.iterator();
+		Stack<String> newS = new Stack<String>();
+		while(iterator.hasNext()){
+			newS.push(iterator.next());
+		}
+		
+		return newS;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Stack<String> s = new Stack<String>();
+		for(int i = 0; i < 10; i++){
+			s.push(""+i);
+		}
+		Stack<String> sCopy = copy(s);
+		
+		for(String ss : sCopy){
+			StdOut.println(ss);
+		}
+
+	}
+
+}
