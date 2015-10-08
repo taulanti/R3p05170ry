@@ -1,0 +1,154 @@
+package creative_problems;
+
+import java.util.Iterator;
+
+import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdOut;
+import edu.princeton.cs.algs4.StdRandom;
+
+public class RandomQueue<Item> implements Iterable {
+	
+	private Item [] a;
+	private int N = 0;
+	
+	public RandomQueue(int size){
+		
+		a = (Item[]) new Object[size];
+	}
+	
+	public boolean isEmpty(){
+		
+		return N == 0;
+	}
+	
+	public void resize(int size){
+		
+		Item [] b = (Item[])new Object[size];
+		
+		for(int i = 0; i < N; i++){
+			
+			b[i] = a[i];
+		}
+		
+		a = b;
+	}
+	
+	public void enqueue(Item item){
+		
+		if(N == a.length){resize(2*a.length);}
+		a[N++] = item;
+	}
+	
+	public Item dequeue(){
+		
+		if(isEmpty()){StdOut.println("queue is empty");}
+		Item temp = a[N-1]; 
+		int i = StdRandom.uniform(0,N);
+		a[N-1] = a[i];
+		a[i] = temp;
+		Item item = a[N-1];
+		a[N-1] = null;
+		N--;
+		if(N > 0 && N == a.length/4){resize(a.length/2);}
+		
+		return item;
+	}
+	
+	public int size(){
+		
+		return N;
+	}
+	
+	public Item sample(){
+		
+		int i = StdRandom.uniform(a.length - 1);
+		Item item = a[i];
+		
+		return item;
+	}
+	
+	public Item [] shuffle(){
+		
+		Item [] item = (Item[])new Object[N];
+		
+		for(int i = 0; i < N; i++){
+				item[i] = a[i];
+		}
+		a = item;
+	    StdRandom.shuffle(a);
+	    return a;
+	}
+	
+	
+	public String toString(){
+		
+		String s = "";
+		for(int i = 0; i < N; i++){
+				s = s +""+a[i]+" ";
+			
+		}
+		
+		return s;
+	}
+	
+	
+	@Override
+	public Iterator iterator() {
+		// TODO Auto-generated method stub
+		return new RandomQueueIterator();
+	}
+	
+	private class RandomQueueIterator<Item> implements Iterator{
+
+		private int i  = 0;
+		Item [] items;
+		public RandomQueueIterator(){
+			items = (Item[]) shuffle();
+		}
+		
+		@Override
+		public boolean hasNext() {
+			// TODO Auto-generated method stub
+			return i < N;
+		}
+
+		@Override
+		public Item next() {
+			// TODO Auto-generated method stub
+				Item it = (Item) items[i];
+				i++;
+				return it;
+			
+		}
+		
+		
+	}
+	
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+			RandomQueue<Integer> rq = new RandomQueue<Integer>(1);
+			int [] a = {1, 2, 3, 4, 5, 6};
+			
+			for(int i = 0; i < a.length; i++){
+				
+				rq.enqueue(a[i]);
+			}
+			Iterator<Integer> i = rq.iterator();
+			while(i.hasNext()){
+				int n = i.next();
+				StdOut.print(n+" ");
+			}
+			
+			StdOut.println();
+			StdOut.println("dequeued: "+rq.dequeue());
+			StdOut.println(rq);
+			StdOut.println("dequeued: "+rq.dequeue());
+			StdOut.println(rq);
+			
+			
+	}
+
+	
+
+}
