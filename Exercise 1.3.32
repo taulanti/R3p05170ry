@@ -1,0 +1,153 @@
+package creative_problems;
+import java.util.Iterator;
+
+import edu.princeton.cs.algs4.StdOut;
+
+public class Stequeue<Item> implements Iterable {
+
+	private Node first;
+	private Node last;
+	private int N;
+
+	private class Node {
+
+		Node next;
+		Item item;
+	}
+
+	public Stequeue() {
+
+		first = null;
+		last = null;
+		N = 0;
+	}
+
+	public boolean isEmpty() {
+
+		return N == 0;
+	}
+
+	public int size() {
+
+		return N;
+	}
+
+	public void push(Item i) {
+
+		Node n = new Node();
+		n.item = i;
+
+		if (isEmpty()) {
+
+			first = n;
+			last = first;
+			N++;
+		} else {
+
+			Node oldFirst = first;
+			first = n;
+			first.next = oldFirst;
+			N++;
+		}
+	}
+
+	public Item pop() {
+
+		Item item = first.item;
+		if (isEmpty()) {
+			throw new RuntimeException("list is empty");
+		} else if (first == last) {
+			first = last = null;
+		} else {
+
+			first = first.next;
+		}
+
+		return item;
+	}
+
+	public Item enqueue(Item item) {
+
+		Node n = new Node();
+		n.item = item;
+
+		if (isEmpty()) {
+			first = last = n;
+			N++;
+		} else {
+
+			Node oldLast = last;
+			last = n;
+			oldLast.next = last;
+			N++;
+		}
+
+		return n.item;
+	}
+
+	public String toString() {
+
+		Node current = first;
+		String s = "";
+		while(current != null){
+			
+			s = s+""+current.item+" -> ";
+			current = current.next;
+		}
+		
+		return s;
+	}
+
+	@Override
+	public Iterator iterator() {
+		// TODO Auto-generated method stub
+		return new StequeueIterator();
+	}
+	
+	private class StequeueIterator<Item> implements Iterator{
+		
+		private Node n = first;
+		@Override
+		public boolean hasNext() {
+			// TODO Auto-generated method stub
+			return n != null;
+		}
+
+		@Override
+		public Item next() {
+			// TODO Auto-generated method stub
+			Item item = (Item) n.item;
+			n = n.next;
+			return item;
+		}
+		
+		
+	}
+
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Stequeue<Integer> squeue = new Stequeue<Integer>();
+		int [] a = {1, 2, 3, 4, 5, 6};
+		
+		for(int i = 0; i < a.length; i++){
+			squeue.push(a[i]);
+			squeue.enqueue(a[i]);
+		}
+		
+		Iterator<Integer> iterator = squeue.iterator();
+		
+		
+		while(iterator.hasNext()){
+			
+			int i = iterator.next();
+			StdOut.print(i+" ");
+		}
+		
+		StdOut.println();
+		StdOut.println(squeue);
+		
+
+	}
+
+}
