@@ -1,0 +1,55 @@
+package ex_1_3;
+
+import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+
+public class Ex_1_3_11 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//Evaluate postfix and return the value
+		
+		Stack<Double> operands = new Stack<Double>();
+		Stack<String> operators = new Stack<String>();
+		
+		while(!StdIn.isEmpty()){
+				String s = StdIn.readString();
+				
+				if(s.equals("+")){
+					operators.push(s);
+					String operator = operators.pop();
+					Double operand = operands.pop();
+					operand = operand + operands.pop();
+					operands.push(operand);
+				}
+			   else if(s.equals("-")){
+				    
+				    operators.push(s);
+					String operator = operators.pop();
+					Double operand = operands.pop();
+					operand = operand - operands.pop();
+					operands.push(operand);
+			   }
+			   else if(s.equals("*")){
+				    
+				    operators.push(s);
+					String operator = operators.pop();
+					Double operand = operands.pop();
+					operand = operand * operands.pop();
+					operands.push(operand);
+			   }
+			   else if(s.equals("/")){
+				    
+				    operators.push(s);
+					String operator = operators.pop();
+					Double operand = operands.pop();
+					operand = operand / operands.pop();
+					operands.push(operand);
+		   }
+		   else{operands.push(Double.parseDouble(s));}	
+		}
+		StdOut.println(operands.pop());
+	} 
+}
+
